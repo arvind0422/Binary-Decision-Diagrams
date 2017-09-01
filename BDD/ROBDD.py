@@ -110,4 +110,4 @@ def robdd():
     path = 'open -a /Applications/Safari.app %s'
     webbrowser.get(path).open(url)
 
-robdd()
+# robdd()
