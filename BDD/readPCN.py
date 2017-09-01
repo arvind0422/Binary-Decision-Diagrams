@@ -36,7 +36,7 @@ def readData():
         data_matrix = np.atleast_2d(data_matrix)
 
     if not data_matrix.size:
-        print(np.zeros([1, len(splitVarOrder)]))
+        # print(np.zeros([1, len(splitVarOrder)]))
         return np.zeros([1, len(splitVarOrder)]), len(splitVarOrder), splitVarOrder
     # print(data_matrix)
 

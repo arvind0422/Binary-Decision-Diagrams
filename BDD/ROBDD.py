@@ -19,7 +19,7 @@ def add_nodes(graph, nodes):
 
 def add_edges(graph, edges):
     for e in edges:
-        print(e)
+        # print(e)
         if isinstance(e[0], tuple):
             graph.edge(*e[0], **e[1])
         else:
@@ -45,13 +45,13 @@ def robdd():
         nodes_1 = ("1", {"label": "1"})
         nody.append(nodes_1)
         edgy.append((chr(int(numberlist[number-1])+97), "1"))
-        print(nody, edgy)
+        # print(nody, edgy)
         add_edges(add_nodes(graph(), nody), edgy).render("ROBDD")
     elif np.array_equal(check_array, np.zeros(len(check_array))):
         nodes_0 = ("0", {"label": "0"})
         nody.append(nodes_0)
         edgy.append((chr(int(numberlist[number-1]) + 97), "0"))
-        print(nody, edgy)
+        # print(nody, edgy)
         add_edges(add_nodes(graph(), nody), edgy).render("ROBDD")
 
     # If Not Tautology or All Zeros
@@ -73,14 +73,14 @@ def robdd():
             else:
                 node_list[i] = str(id_dict.index(temp))
 
-        print(id_dict)
+        # print(id_dict)
         nodes = list()
         for i in range(len(id_dict)):
             label = dict()
             label['label'] = id_dict[i][0]
             tup = (str(i), label)
             nodes.append(tup)
-        print(nodes)
+        # print(nodes)
 
         # Building edge tuples
         edges = list()
@@ -96,7 +96,7 @@ def robdd():
             tup1 = (str(i), id_dict[i][2])
             tup = (tup1, label)
             edges.append(tup)
-        print(edges)
+        # print(edges)
 
         # g = add_nodes_graph(g, nodes)
         # g = add_edges_graph(g, edges)

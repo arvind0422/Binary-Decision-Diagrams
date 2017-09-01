@@ -22,5 +22,3 @@ def build():
     flat_var_list = [item for sublist in var_list for item in sublist]
 
     return flat_var_list
-
-
