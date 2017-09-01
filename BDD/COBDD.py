@@ -60,4 +60,4 @@ def cobdd():
     path = 'open -a /Applications/Safari.app %s'
     webbrowser.get(path).open(url)
 
-cobdd()
+# cobdd()
