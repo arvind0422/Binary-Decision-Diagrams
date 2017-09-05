@@ -11,14 +11,14 @@ from Stack import Stack
 max_no = 26  # Max No. Of Variables
 
 
-def weight(col_no, n_size, pcode):
+def weight(col_no, n_size, pcode):  # Function to Hash to a Particular Location in Leaf Node Array
     if pcode == "10" or pcode == "11":
         return 0
     elif pcode == "01":
         return (2 ** n_size) / (2 ** (col_no+1))
 
 
-def dist(col_no, n):
+def dist(col_no, n):  # To calculate separation between leaf nodes in case of Don't Care
     return (2 ** (n-col_no)) - 1
 
 
@@ -31,7 +31,7 @@ def get_leaf_nodes():
     for pcn_row_1 in pcn_mat:
         pcn_row = list(pcn_row_1)
         # print(pcn_row)
-        s = Stack()
+        s = Stack()  # To Hold Occurrence of Don't Care in the BDD
         s.push(1)
         for i in range(len(pcn_row)):
             if pcn_row[i] == "11":

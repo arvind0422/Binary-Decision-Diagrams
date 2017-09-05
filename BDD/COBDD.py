@@ -3,13 +3,11 @@ Graphviz representation of OBDD
 """
 
 import graphviz as gv
-import functools
+from graphviz import Digraph
 import buildTree
-import os
-import webbrowser
 
 
-def add_nodes_graph(graph1, nodes1):
+def add_nodes_graph(graph1, nodes1):  # Function To Add Node to Grpah
 
     # Iterating over all nodes in the list
     for n in nodes1:
@@ -20,7 +18,7 @@ def add_nodes_graph(graph1, nodes1):
     return graph1
 
 
-def add_edges_graph(graph2, edges2):
+def add_edges_graph(graph2, edges2):  # Function To Create An Edge in Graph
 
     # Iterating over all edges in the list
     for e in edges2:
@@ -32,13 +30,20 @@ def add_edges_graph(graph2, edges2):
 def cobdd():
 
     list_OBDD = buildTree.build()
-    graph = functools.partial(gv.Graph, format="svg")
+    graph = Digraph(format="pdf")
 
     # Adding nodes to the graph
     nodes = list()
-    for i in range(int(len(list_OBDD))):
+    for i in range(int(len(list_OBDD)/2)):
         label = dict()
-        label['label'] = list_OBDD[i]
+        label['label'] = list_OBDD[i]  # Label of Nodes
+        tup = (str(i), label)
+        nodes.append(tup)
+
+    for i in range(int(len(list_OBDD)/2), len(list_OBDD)):
+        label = dict()
+        label['label'] = list_OBDD[i]  # Label & Box Shape of Leaf Nodes
+        label['shape'] = "box"
         tup = (str(i), label)
         nodes.append(tup)
 
@@ -51,13 +56,7 @@ def cobdd():
         edges.append(tup)
 
     # Rendering The Graph
-    g = add_edges_graph(add_nodes_graph(graph(), nodes), edges)
-    g.render('COBDD')
-
-    # Automatic Opening
-    os.remove("/Users/arvindkumar/Documents/My Documents/Academics/5th Sem/SDC/Project/COBDD")
-    url = "file:///Users/arvindkumar/Documents/My%20Documents/Academics/5th%20Sem/SDC/Project/COBDD.svg"
-    path = 'open -a /Applications/Safari.app %s'
-    webbrowser.get(path).open(url)
+    g = add_edges_graph(add_nodes_graph(graph, nodes), edges)
+    g.render('COBDD', view=True)
 
 # cobdd()

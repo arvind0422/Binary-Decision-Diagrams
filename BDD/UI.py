@@ -23,6 +23,7 @@ x = (ws/2) - (w/2)
 y = (hs/2) - (h/2)
 top.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
+# Creating Buttons
 A = Tkinter.Button(top, text="Change Input File Contents", command=opentxtfile)
 B = Tkinter.Button(top, text="Complete Order B.D.D", command=cobdd)
 C = Tkinter.Button(top, text="Reduced Order B.D.D", command=robdd)

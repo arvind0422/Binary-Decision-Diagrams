@@ -1,4 +1,3 @@
-# from id_dict_return import id_dict
 import webbrowser
 import buildTree
 from OBDD import get_leaf_nodes
@@ -7,6 +6,7 @@ import numpy as np
 
 def ite_master():
 
+    # Creating A List Of All Parent, Left Child, Right Child Combinations
     node_list = buildTree.build()
     id_dict = list()
     id_dict.append(("0", "-", "-"))
@@ -25,9 +25,11 @@ def ite_master():
             node_list[i] = str(id_dict.index(temp))
     list_of_lists = [list(elem) for elem in id_dict]
     id_dict = list_of_lists
-    print(id_dict)
+    # print(id_dict)
     id_dict[0] = 0
     id_dict[1] = 1
+    for ele in id_dict[2:]:
+        ele[1], ele[2] = ele[2], ele[1]
 
     def ite(tup):
         if tup == 1 or tup == 0:
@@ -43,9 +45,9 @@ def ite_master():
     elif np.array_equal(check_array, np.zeros(len(check_array))):
         answer = 0
     else:
-        answer = ite(id_dict[len(id_dict)-1])
+        answer = ite(id_dict[len(id_dict)-1])  # Call to Recursive Function
 
-    print(answer)
+    # print(answer)
 
     filepath = "ITE.txt"
     path = 'open -a /Applications/TextEdit.app %s'
@@ -54,6 +56,7 @@ def ite_master():
     file.write(str(answer))
 
     file.close()
+
     url = "file:///Users/arvindkumar/Documents/My%20Documents/Academics/5th%20Sem/SDC/Project/ITE.txt"
     webbrowser.get(path).open(url)
 

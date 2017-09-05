@@ -1,8 +1,6 @@
 import buildTree
-import functools
+from graphviz import Digraph, Source
 import graphviz as gv
-import os
-import webbrowser
 from OBDD import get_leaf_nodes
 import numpy as np
 import readPCN
@@ -28,33 +26,33 @@ def add_edges(graph, edges):
 
 
 def robdd():
-
-    graph = functools.partial(gv.Graph, format="svg")
+    graph = Digraph(format="pdf")
 
     # Handling Tautology and All Zeros
     check_array = get_leaf_nodes()
     matrixdata, number, numberlist = readPCN.readData()
     # print(check_array)
     nody = list()
-    for variable in numberlist:
-        nody.append(chr(int(variable)+97))
+    # for variable in numberlist:
+    #     nody.append(chr(int(variable)+97))
     edgy = list()
-    for i in range(number-1):
-        edgy.append((chr(int(numberlist[i])+97), chr(int(numberlist[i+1])+97)))
+    # for i in range(number-1):
+    #     edgy.append((chr(int(numberlist[i])+97), chr(int(numberlist[i+1])+97)))
     if np.array_equal(check_array, np.ones(len(check_array))):
-        nodes_1 = ("1", {"label": "1"})
+        nodes_1 = ("1", {"label": "1", "shape": "box"})
         nody.append(nodes_1)
-        edgy.append((chr(int(numberlist[number-1])+97), "1"))
+        # edgy.append((chr(int(numberlist[number-1])+97), "1"))
         # print(nody, edgy)
-        add_edges(add_nodes(graph(), nody), edgy).render("ROBDD")
+        add_edges(add_nodes(graph, nody), edgy).render("ROBDD")
     elif np.array_equal(check_array, np.zeros(len(check_array))):
-        nodes_0 = ("0", {"label": "0"})
+        nodes_0 = ("0", {"label": "0", "shape": "box"})
         nody.append(nodes_0)
-        edgy.append((chr(int(numberlist[number-1]) + 97), "0"))
+        # edgy.append((chr(int(numberlist[number-1]) + 97), "0"))
         # print(nody, edgy)
-        add_edges(add_nodes(graph(), nody), edgy).render("ROBDD")
+        add_edges(add_nodes(graph, nody), edgy).render("ROBDD")
 
     # If Not Tautology or All Zeros
+    # Creating A List Of All Parent, Left Child, Right Child Combinations
     else:
         node_list = buildTree.build()
         id_dict = list()
@@ -80,6 +78,9 @@ def robdd():
             label['label'] = id_dict[i][0]
             tup = (str(i), label)
             nodes.append(tup)
+        nodes = list(reversed(nodes))
+        nodes[len(nodes)-2][1]["shape"] = "box"  # Adding Shapes to Leaf Nodes
+        nodes[len(nodes)-1][1]["shape"] = "box"  # Adding Shapes to Leaf Nodes
         # print(nodes)
 
         # Building edge tuples
@@ -87,27 +88,34 @@ def robdd():
         # print(len(id_dict))
         for i in range(2, len(id_dict)):
             label = dict()
-            label['label'] = '0'
-            tup1 = (str(i), id_dict[i][1])
-            tup = (tup1, label)
-            edges.append(tup)
-            label = dict()
             label['label'] = '1'
             tup1 = (str(i), id_dict[i][2])
             tup = (tup1, label)
-            edges.append(tup)
+            # edges.append(tup)  # Edges With Labels
+            edges.append(tup1)
+            label = dict()
+            label['label'] = '0'
+            tup1 = (str(i), id_dict[i][1])
+            tup = (tup1, label)
+            # edges.append(tup)  # Edges With Labels
+            edges.append(tup1)
+        edges = list(reversed(edges))
         # print(edges)
 
-        # g = add_nodes_graph(g, nodes)
-        # g = add_edges_graph(g, edges)
-        # print(g.source)
+        add_edges(add_nodes(graph, nodes), edges)
 
-        add_edges(add_nodes(graph(), nodes), edges).render('ROBDD')
+    # To Make Left -> 0 and Right -> 1
 
-    # Automatic Opening
-    os.remove("/Users/arvindkumar/Documents/My Documents/Academics/5th Sem/SDC/Project/ROBDD")
-    url = "file:///Users/arvindkumar/Documents/My%20Documents/Academics/5th%20Sem/SDC/Project/ROBDD.svg"
-    path = 'open -a /Applications/Safari.app %s'
-    webbrowser.get(path).open(url)
+    statement = "\n	graph [ordering=\"out\"]\n"
+    # print(statement)
+    source = graph.source
+    # print(source)
+    dot = source[0:9]+statement+source[10:]
+    # print(dot)
+
+    # Rendering The Graph
+
+    dot = Source(dot)
+    dot.render('ROBDD', view=True)
 
 # robdd()
