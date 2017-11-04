@@ -1,14 +1,26 @@
 """
-Cool Algo which we made - Sripathi, Shantanu, Arvind
-
 In the tree, left child is 0, right child is 1.
+
 """
 
 import readPCN
 import numpy as np
-from Stack import Stack
 
-max_no = 26  # Max No. Of Variables
+# from Stack import Stack
+
+
+class Stack:
+    def __init__(self):
+        self.items = []
+
+    def peek(self):
+        return self.items[len(self.items) - 1]
+
+    def push(self, item):
+        self.items.append(item)
+
+    def pop(self):
+        return self.items.pop()
 
 
 def weight(col_no, n_size, pcode):  # Function to Hash to a Particular Location in Leaf Node Array
@@ -23,6 +35,7 @@ def dist(col_no, n):  # To calculate separation between leaf nodes in case of Do
 
 
 def get_leaf_nodes():
+    max_no = 26  # Max No. Of Variables
     pcn_mat, no_of_splitting_var, splitVarOrder = readPCN.readData()
     if np.array_equal(pcn_mat, np.zeros([1, no_of_splitting_var])):
         return np.zeros(2 ** no_of_splitting_var)
@@ -58,3 +71,22 @@ def get_leaf_nodes():
             # print(answer)
     # print(answer)
     return answer
+
+
+def build():
+    leaf_nodes = get_leaf_nodes()
+    pcnmat, n, splitVarOrder = readPCN.readData()
+
+    # Creating a list of all the nodes in the tree
+    var_list = list()
+    for index, var in enumerate(splitVarOrder):
+        var_alpha = chr(97+int(var))
+        var_list.append(list(var_alpha)*(2 ** index))
+
+    # Appending the Leaf Nodes
+    var_list.append(list(map(str, list(map(int, leaf_nodes)))))
+
+    # Flattening the list
+    flat_var_list = [item for sublist in var_list for item in sublist]
+
+    return flat_var_list

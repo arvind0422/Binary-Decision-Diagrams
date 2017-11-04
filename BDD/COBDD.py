@@ -1,10 +1,16 @@
 """
-Graphviz representation of OBDD
+Function 1: Generated COBDD for a given function in PCN Format using graphviz.
+
+Instructions:
++ Edit PCN_data.txt
++ Run this file.
++ COBDD.pdf file stores the graph.
+
 """
 
-import graphviz as gv
 from graphviz import Digraph
-import buildTree
+
+import OBDD
 
 
 def add_nodes_graph(graph1, nodes1):  # Function To Add Node to Grpah
@@ -29,7 +35,7 @@ def add_edges_graph(graph2, edges2):  # Function To Create An Edge in Graph
 
 def cobdd():
 
-    list_OBDD = buildTree.build()
+    list_OBDD = OBDD.build()
     graph = Digraph(format="pdf")
 
     # Adding nodes to the graph
@@ -59,4 +65,5 @@ def cobdd():
     g = add_edges_graph(add_nodes_graph(graph, nodes), edges)
     g.render('COBDD', view=True)
 
-# cobdd()
+if __name__ == "__main__":
+    cobdd()

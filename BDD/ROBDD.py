@@ -1,9 +1,20 @@
-import buildTree
+"""
+Function 2: Generated ROBDD for a given function in PCN format using graphviz.
+
+Instructions:
++ Edit PCN_data.txt
++ Run this file.
++ ROBDD.pdf file stores the graph.
+
+"""
+
+
 from graphviz import Digraph, Source
-import graphviz as gv
-from OBDD import get_leaf_nodes
 import numpy as np
+
 import readPCN
+import OBDD
+from OBDD import get_leaf_nodes
 
 
 def add_nodes(graph, nodes):
@@ -29,6 +40,7 @@ def robdd():
     graph = Digraph(format="pdf")
 
     # Handling Tautology and All Zeros
+
     check_array = get_leaf_nodes()
     matrixdata, number, numberlist = readPCN.readData()
     # print(check_array)
@@ -54,7 +66,7 @@ def robdd():
     # If Not Tautology or All Zeros
     # Creating A List Of All Parent, Left Child, Right Child Combinations
     else:
-        node_list = buildTree.build()
+        node_list = OBDD.build()
         id_dict = list()
         id_dict.append(("0", "-", "-"))
         id_dict.append(("1", "-", "-"))
@@ -107,9 +119,7 @@ def robdd():
     # To Make Left -> 0 and Right -> 1
 
     statement = "\n	graph [ordering=\"out\"]\n"
-    # print(statement)
     source = graph.source
-    # print(source)
     dot = source[0:9]+statement+source[10:]
     # print(dot)
 
@@ -118,4 +128,5 @@ def robdd():
     dot = Source(dot)
     dot.render('ROBDD', view=True)
 
-# robdd()
+if __name__ == "__main__":
+    robdd()

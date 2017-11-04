@@ -1,13 +1,24 @@
-import webbrowser
-import buildTree
-from OBDD import get_leaf_nodes
+"""
+Function 3: Generates ITE for a given function in PCN format.
+
+Instructions:
++ Edit PCN_data.txt
++ Run this file.
++ Result is rendered as a .txt file and is stored in ITE.txt
+
+"""
+
 import numpy as np
+import webbrowser
+
+import OBDD
+from OBDD import get_leaf_nodes
 
 
 def ite_master():
 
     # Creating A List Of All Parent, Left Child, Right Child Combinations
-    node_list = buildTree.build()
+    node_list = OBDD.build()
     id_dict = list()
     id_dict.append(("0", "-", "-"))
     id_dict.append(("1", "-", "-"))
@@ -47,17 +58,17 @@ def ite_master():
     else:
         answer = ite(id_dict[len(id_dict)-1])  # Call to Recursive Function
 
-    # print(answer)
-
     filepath = "ITE.txt"
-    path = 'open -a /Applications/TextEdit.app %s'
-
     file = open(filepath, "w")
     file.write(str(answer))
-
     file.close()
 
-    url = "file:///Users/arvindkumar/Documents/My%20Documents/Academics/5th%20Sem/SDC/Project/ITE.txt"
-    webbrowser.get(path).open(url)
+    # path = 'open -a /Applications/TextEdit.app %s'
+    # url = "file:///Users/arvindkumar/Documents/My%20Documents/Academics/5th%20Sem/SDC/Project/ITE.txt"
+    # webbrowser.get(path).open(url)
 
-# ite_master()
+    # print(answer)
+    return answer
+
+if __name__ == "__main__":
+    ite_master()

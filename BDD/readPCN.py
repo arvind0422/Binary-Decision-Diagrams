@@ -1,9 +1,12 @@
 """
+Support Function to read PCN data from a .txt file
+
 This file helps to read PCN matrix and then output the matrix with proper splitting variable order.
 First line is the splitting order (to be given as indices separated by spaces)
 Second onwards is the data in PCN format
 No of columns of the matrix depends on the no. of variables chosen
-Author : Sripathi, Shantanu, Arvind
+Authors : Sripathi, Shantanu, Arvind
+
 """
 
 import numpy as np
@@ -11,7 +14,8 @@ import numpy as np
 
 def readData():
     # Opening the file
-    PCNread = open("PCN_data.txt", "r")
+    filename = "PCN_data.txt"  # Change File Name if needed.
+    PCNread = open(filename, "r")
 
     # Reading all lines of the file
     data = PCNread.readlines()
